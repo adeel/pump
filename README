@@ -1,0 +1,23 @@
+Documentation will be here soon.
+
+EXAMPLE.
+
+    # test.py
+
+    import pack
+
+    def hello(req, name):
+      return "Hello, %s." % name
+
+    routes = {
+      ('GET', '^/hello/(.+)/?$'): hello,
+      ('GET', '^/goodbye/(.+)/?$'): "Bye!",
+    }
+
+    app = pack.make_wsgi_app(routes)
+
+Magic:
+
+    $ gunicorn test:app
+
+(Green Unicorn <http://gunicorn.org> is a good WSGI server.)
