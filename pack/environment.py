@@ -39,31 +39,6 @@ def get_handler_for_request(e, route_map):
         return handler, list(match.groups())
   return None, []
 
-default_response = {'status': 200, 'headers': {'Content-Type': 'text/html'},
-  'body': ""}
-
-def get_response(e, route_map):
-  handler, url_params = get_handler_for_request(e, route_map)
-
-  if not handler:
-    response = {'status': 404, 'body': "<h1>Not Found</h1>"}
-  elif isinstance(handler, dict):
-    response = handler
-  else:
-    response = {'body': handler}
-
-  response = dict(default_response, **response)
-
-  if callable(response['body']):
-    try:
-      response['body'] = (response['body'])(e, *url_params)
-    except Exception, exc:
-      print exc
-      response['status'] = 500
-      response['body'] = "<h1>Internal Server Error</h1>"
-
-  return response
-
 def _parse_get_params(e):
   parsed = parse_qs(query_string(e), keep_blank_values=True)
   params = {}

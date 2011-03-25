@@ -9,8 +9,7 @@ def pack(routes, config={}):
 
   # WSGI sucks.
   def app(env, start_response):
-    return response.to_wsgi(environment.get_response(env, routes),
-      start_response)
+    return response.to_wsgi(response.get(env, routes), start_response)
 
   return app
 
