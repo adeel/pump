@@ -2,15 +2,10 @@
 
 import environment
 import response
+from shortcuts import GET, POST, PUT, DELETE
 
-def make_wsgi_app(routes, config={}):
-  "Make a WSGI application."
-
-  # routes = {
-  #   ('GET', '^/$'): "Hello world",
-  #   ('GET', '^users/profile/(\d+)/?$'): controllers.user.profile,
-  #   ('GET', '.*'): {"status": 404, "body": (lambda req: "Not Found")}
-  # }
+def pack(routes, config={}):
+  "Pack some routes into a WSGI application."
 
   # WSGI sucks.
   def app(env, start_response):
@@ -18,3 +13,6 @@ def make_wsgi_app(routes, config={}):
       start_response)
 
   return app
+
+def def_routes(*routes):
+  return dict([((m, p), h) for (m, p, h) in routes])

@@ -9,12 +9,12 @@ EXAMPLE.
     def hello(req, name):
       return "Hello, %s." % name
 
-    routes = {
-      ('GET', '^/hello/(.+)/?$'): hello,
-      ('GET', '^/goodbye/(.+)/?$'): "Bye!",
-    }
+    routes = def_routes(
+      GET('^/hello/(.+)/?$', hello),
+      GET('^/goodbye/(.+)/?$', "Bye!")
+    )
 
-    app = pack.make_wsgi_app(routes)
+    app = pack(routes)
 
 Magic:
 
