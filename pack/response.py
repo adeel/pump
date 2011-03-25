@@ -26,7 +26,7 @@ def get(e, route_map):
   handler, url_params = environment.get_handler_for_request(e, route_map)
 
   if not handler:
-    response = {'status': 404, 'body': "<h1>Not Found</h1>"}
+    response = error(404)
   elif isinstance(handler, dict):
     response = handler
   else:
