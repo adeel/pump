@@ -4,9 +4,9 @@ EXAMPLE.
 
     # test.py
 
-    import pack
+    from pack import *
 
-    def hello(req, name):
+    def hello(e, name):
       return "Hello, %s." % name
 
     routes = def_routes(
