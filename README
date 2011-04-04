@@ -1,23 +1,68 @@
-Documentation will be here soon.
+Pack is a low-level library for developing web applications in Python.  It
+is meant to improve on WSGI by providing a clean, developer-friendly API.
+Heavily inspired by Clojure's Ring and Ruby's Rack.
+
+Pack apps are easily converted to WSGI apps.  In the future, Pack will ship
+with adapters for popular WSGI servers.
 
 EXAMPLE.
 
     # test.py
 
-    from pack import *
+    import pack
 
-    def hello(e, name):
-      return "Hello, %s." % name
+    def app(req):
+      return {"status": 200, "headers": {"content_type": "text/plain"},
+              "body": "Hello, world!"}
 
-    routes = def_routes(
-      GET('^/hello/(.+)/?$', hello),
-      GET('^/goodbye/(.+)/?$', "Bye!")
-    )
-
-    app = pack(routes)
+    wsgi_app = pack.util.wsgi.build(app)
 
 Magic:
 
-    $ gunicorn test:app
+    $ gunicorn test:wsgi_app
 
 (Green Unicorn <http://gunicorn.org> is a good WSGI server.)
+
+DESCRIPTION.
+
+-- A Pack app is a function that takes a Pack request and returns a Pack
+response.
+
+-- A Pack request is a dict with the following keys.
+
+  -- server_port
+       Corresponds to SERVER_PORT in WSGI's environ.
+  -- server_name
+       Corresponds to SERVER_NAME in WSGI's environ.
+  -- remote_addr
+       Corresponds to REMOTE_ADDR in WSGI's environ (not required by specs).
+  -- uri
+       Corresponds to RAW_URI in WSGI's environ, or PATH_INFO if it is not
+       given.
+  -- query_string
+       The portion of the request URL that follows the "?".  Corresponds to
+       QUERY_STRING in WSGI's environ.
+  -- scheme
+       "http" or "https".  Corresponds to wsgi.url_scheme in WSGI's environ.
+  -- method
+       "GET", "POST", etc.  Corresponds to REQUEST_METHOD in WSGI's environ.
+  -- headers
+       A dict containing the request headers.  Each key-value pair corresponds
+       to a key in WSGI's environ starting with "HTTP_".
+  -- content_type
+       Corresponds to CONTENT_TYPE in WSGI's environ.
+  -- content_length
+       Corresponds to CONTENT_LENGTH in WSGI's environ.
+  -- body
+       The HTTP request body as a stream.  Corresponds to wsgi.input in WSGI's
+       environ.
+
+-- A Pack response is a dict with the following keys.
+
+  -- status
+       An integer, e.g. 200, 404.
+  -- headers
+       A dict containing the response headers, e.g.
+         {'content_type': 'text/html'}.
+  -- body
+       A string containing the body of the response.
