@@ -12,15 +12,12 @@ def redirect(url):
 
 def with_status(response, status):
   "Return the given response updated with the given status."
-  response["status"] = status
-  return response
+  return dict(response, status=status)
 
 def with_header(response, key, value):
   "Return the given response updated with the given header."
-  if not response.get("headers"):
-    response["headers"] = {}
-  response["headers"][key] = value
-  return response
+  return dict(response,
+    headers=dict(response.get("headers", {}), key=value))
 
 def with_content_type(response, content_type):
   "Return the given response updated with the given content-type."
