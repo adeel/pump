@@ -2,7 +2,7 @@ import os
 
 skeleton = {"status": 200, "headers": {}, "body": ""}
 
-def skeleton_with_body(body):
+def with_body(body):
   "Return a skeleton response with the given body."
   return dict(skeleton, body=body)
 
