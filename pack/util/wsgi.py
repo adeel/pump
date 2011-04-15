@@ -72,7 +72,7 @@ def set_headers(response, headers):
   return response
 
 def set_body(response, body):
-  if isinstance(body, str):
+  if isinstance(body, str) or isinstance(body, unicode):
     response["body"] = body
   elif isinstance(body, list):
     response["body"] = ''.join(body)
