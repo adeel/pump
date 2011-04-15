@@ -6,7 +6,8 @@ def build(app):
   "Turns a Pack app into a WSGI app."
 
   def wsgi_app(request, start_response):
-    response_map = dict(skeleton, **app(build_request_map(request)))
+    response = app(build_request_map(request)) or {}
+    response_map = dict(skeleton, **response)
     return build_wsgi_response(response_map, start_response)
   return wsgi_app
 
