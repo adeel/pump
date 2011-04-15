@@ -25,7 +25,7 @@ def with_content_type(response, content_type):
 def file_response(path, options={}):
   file = _get_file(path, options)
   if file:
-    return skeleton_with_body(open(file, 'r'))
+    return with_body(open(file, 'r'))
 
 def _get_file(path, options={}):
   root = options.get('root')
