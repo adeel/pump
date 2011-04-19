@@ -3,6 +3,8 @@
 from Cookie import SimpleCookie as Cookie
 from pack.util import codec
 
+# TODO: When there are multiple cookies, it inserts "Set-Cookie" before each one.
+
 def wrap_cookies(app):
   """
   A middleware that parses the cookies in the request map and assigns the
@@ -36,5 +38,11 @@ def write_cookies(cookies):
   "Turn a dict of cookies into a list of strings for the set_cookie header."
   cookie = Cookie()
   for key, val in cookies.items():
-    cookie[key] = val
+    if isinstance(val, dict):
+      cookie[key] = val["value"]
+      for val_key, val_val in val.items():
+        if val_key != "value":
+          cookie[key][val_key] = val_val
+    else:
+      cookie[key] = val
   return cookie.output()
