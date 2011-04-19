@@ -116,8 +116,14 @@ def set_status(response, status):
   return response
 
 def set_headers(response, headers):
-  response["headers"] = [(k.replace('_', '-').title(), v)
-    for k, v in headers.items()]
+  response["headers"] = []
+  for key, val in headers.items():
+    key = key.replace("_", "-").title()
+    if isinstance(val, list):
+      for v in val:
+        response["headers"].append((key, v))
+    else:
+      response["headers"].append((key, val))
   return response
 
 def set_body(response, body):

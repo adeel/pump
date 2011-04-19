@@ -49,7 +49,8 @@ response.
        "GET", "POST", etc.  Corresponds to REQUEST_METHOD in WSGI's environ.
   -- headers
        A dict containing the request headers.  Each key-value pair corresponds
-       to a key in WSGI's environ starting with "HTTP_".
+       to a key in WSGI's environ starting with "HTTP_".  If there are multiple
+       headers for a single key, headers[key] will be the list of values.
   -- content_type
        Corresponds to CONTENT_TYPE in WSGI's environ.
   -- content_length
