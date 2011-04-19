@@ -1,40 +1,86 @@
 "Methods for converting between Pack apps and WSGI apps."
 
+import threading
 from pack.util.response import skeleton
 
-def build(app):
-  "Turns a Pack app into a WSGI app."
+def build_app(wsgi_app):
+  "Convert a WSGI app to a Pack app."
+  def app(request):
+    # A thread-local storage is required here, because of the way WSGI is
+    # implemented (start_response in particular).  As far as I can tell,
+    # it's necessary to give the WSGI app a custom start_response function
+    # that just saves the status and headers to a thread-local variable.
+    # Then we combine these with the body, returned by the WSGI app, to build
+    # the Pack response.
+    data = threading.local()
+    def start_response(status, headers, _=None):
+      data.status = status
+      data.headers = headers
 
-  def wsgi_app(request, start_response):
-    response = app(build_request_map(request)) or {}
+    body = wsgi_app(build_wsgi_request(request), start_response)
+    return build_response((data.status, data.headers, body))
+  return app
+
+def build_request(wsgi_req):
+  "Convert a WSGI request (environ) to a Pack request."
+  return dict({
+    'uri':     wsgi_req.get('RAW_URI') or wsgi_req.get('PATH_INFO'),
+    'scheme':  wsgi_req.get('wsgi.url_scheme'),
+    'method':  wsgi_req.get('REQUEST_METHOD', 'get').lower(),
+    'headers': get_headers(wsgi_req),
+    'body':    wsgi_req.get('wsgi.input')
+  }, **dict([(k.lower(), v) for k, v in wsgi_req.iteritems()]))
+
+def build_response(wsgi_response):
+  "Convert a WSGI response to a Pack response."
+  status, headers, body = wsgi_response
+  return {
+    "status":  int(status[:3]),
+    "headers": dict([(k.replace("-", "_"), v) for k, v in headers]),
+    "body":    body}
+
+def build_middleware(wsgi_middleware, *args):
+  """
+  Converts a WSGI middleware into Pack middleware.  You can pass additional
+  arguments which will be passed to the middleware given.
+  """
+  def middleware(app):
+    return build_app(wsgi_middleware(build_wsgi_app(app), *args))
+  return middleware
+
+def build_wsgi_app(app):
+  "Convert a Pack app to a WSGI app."
+  def wsgi_app(request, start_response, _=None):
+    response = app(build_request(request)) or {}
     response_map = dict(skeleton, **response)
     return build_wsgi_response(response_map, start_response)
   return wsgi_app
 
-def build_request_map(request):
-  "Create a Pack request map from the WSGI request (environ variable)."
+def build_wsgi_request(request):
+  "Convert a Pack request to a WSGI request."
+  wsgi_request = {
+    "SERVER_PORT":     request.get("server_port"),
+    "SERVER_NAME":     request.get("server_name"),
+    "REMOTE_ADDR":     request.get("remote_addr"),
+    "RAW_URI":         request.get("uri"),
+    "PATH_INFO":       request.get("uri"),
+    "QUERY_STRING":    request.get("query_string"),
+    "wsgi.url_scheme": request.get("scheme"),
+    "REQUEST_METHOD":  request.get("method", "GET").upper(),
+    "CONTENT_TYPE":    request.get("content_type"),
+    "CONTENT_LENGTH":  request.get("content_length"),
+    "wsgi.input":      request.get("body")}
+  for key, value in request.get("headers", {}).iteritems():
+    wsgi_request["HTTP_%s" % key.upper()] = value
 
-  return {
-    'server_port':    request.get('SERVER_PORT'),
-    'server_name':    request.get('SERVER_NAME'),
-    'remote_addr':    request.get('REMOTE_ADDR'),
-    'uri':            request.get('RAW_URI') or request.get('PATH_INFO'),
-    'query_string':   request.get('QUERY_STRING', ''),
-    'scheme':         request.get('wsgi.url_scheme'),
-    'method':         request.get('REQUEST_METHOD', 'get').lower(),
-    'headers':        get_headers(request),
-    'content_type':   request.get('CONTENT_TYPE'),
-    'content_length': request.get('CONTENT_LENGTH'),
-    'body':           request.get('wsgi.input'),
-  }
+  for key, value in request.iteritems():
+    if key.upper() not in wsgi_request:
+      wsgi_request[key] = value
 
-def get_headers(request):
-  return dict([(k.replace('HTTP_', '').lower(), v) for k, v in request.items()
-    if k.startswith('HTTP_')])
+  return wsgi_request
 
 def build_wsgi_response(response_map, start_response):
-  "Create a WSGI response from a Pack response map."
-
+  "Convert a Pack response to a WSGI response."
   response = {}
   response = set_status(response, response_map["status"])
   response = set_headers(response, response_map["headers"])
@@ -42,6 +88,10 @@ def build_wsgi_response(response_map, start_response):
 
   start_response(response["status"], response["headers"])
   return response["body"]
+
+def get_headers(request):
+  return dict([(k.replace('HTTP_', '').lower(), v) for k, v in request.items()
+    if k.startswith('HTTP_')])
 
 def set_status(response, status):
   status_map = {
@@ -60,8 +110,7 @@ def set_status(response, status):
     500: "500 Internal Server Error",
     502: "502 Bad Gateway",
     503: "503 Service Unavailable",
-    504: "504 Gateway Timeout"
-  }
+    504: "504 Gateway Timeout"}
 
   response["status"] = status_map.get(status, str(status))
   return response
