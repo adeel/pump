@@ -3,7 +3,8 @@ is meant to improve on WSGI by providing a clean, developer-friendly API.
 Heavily inspired by Clojure's Ring and Ruby's Rack.
 
 Pack apps are easily converted to WSGI apps.  In the future, Pack will ship
-with adapters for popular WSGI servers.
+with adapters for popular WSGI servers.  WSGI middleware can also be converted
+to Pack middleware.
 
 EXAMPLE.
 
@@ -15,7 +16,7 @@ EXAMPLE.
       return {"status": 200, "headers": {"content_type": "text/plain"},
               "body": "Hello, world!"}
 
-    wsgi_app = pack.util.wsgi.build(app)
+    wsgi_app = pack.util.wsgi.build_wsgi_app(app)
 
 Magic:
 
