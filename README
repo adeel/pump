@@ -17,7 +17,7 @@ EXAMPLE.
 
     pack.adapters.serve_with_paste(app, {"port": 3000})
 
-(Green Unicorn <http://gunicorn.org> is a good WSGI server.)
+This requires the Paste WSGI server <http://pythonpaste.org> to run.
 
 DESCRIPTION.
 
