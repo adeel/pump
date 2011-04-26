@@ -16,7 +16,8 @@ def with_status(response, status):
 
 def with_header(response, key, value):
   "Return the given response updated with the given header."
-  return dict(response, headers=dict(response.get("headers", {}), key=value))
+  return dict(response, headers=dict(response.get("headers", {})),
+    **{key: value})
 
 def with_content_type(response, content_type):
   "Return the given response updated with the given content-type."
