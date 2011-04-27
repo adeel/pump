@@ -68,6 +68,6 @@ def parse_nested_keys(string):
   """
   k, ks = re.compile(r"^(.*?)((?:\[.*?\])*)$").match(string).groups()
   if not ks:
-    return k
+    return [k]
   keys = re.compile('\[(.*?)\]').findall(ks)
   return [k] + keys
