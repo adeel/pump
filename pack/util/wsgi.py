@@ -36,7 +36,7 @@ def build_response(wsgi_response):
   status, headers, body = wsgi_response
   return {
     "status":  int(status[:3]),
-    "headers": dict([(k.replace("-", "_"), v) for k, v in headers]),
+    "headers": dict([(k.replace("-", "_").lower(), v) for k, v in headers]),
     "body":    body}
 
 def build_middleware(wsgi_middleware, *args):
