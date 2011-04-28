@@ -11,6 +11,8 @@ def wrap_static(app, public_dir, static_urls):
   static_urls (the URL must start with one of the static_urls), it looks in
   public_dir for a file corresponding to the request URL.  If no such file is
   not found, the request is handled normally.
+
+  Note that the paths in static_urls should include the leading '/'.
   """
   app_with_file = wrap_file(app, public_dir)
   def wrapped_app(req):
