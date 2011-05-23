@@ -30,21 +30,20 @@ def wrap_params(app, options={}):
 def parse_get_params(request, encoding):
   "Parse params from the query string."
 
-  query_string = request.get('query_string')
-  if not query_string:
-    return dict(request, **{'get_params': {}, 'params': {}})
+  if request.get("query_string"):
+    params = parse_params(request["query_string"], encoding)
+  else:
+    params = {}
 
-  params = parse_params(query_string, encoding)
   return _recursive_merge(request, {'get_params': params, 'params': params})
 
 def parse_post_params(request, encoding):
   "Parse params from the request body."
 
-  if not _does_have_urlencoded_form(request) or not request.get('body'):
-    return dict(request, **{'post_params': {}, 'params': {}})
-
-  body = request['body']
-  params = parse_params(body.read(), encoding)
+  if _does_have_urlencoded_form(request) and request.get("body"):
+    params = parse_params(request["body"].read(), encoding)
+  else:
+    params = {}
 
   return _recursive_merge(request, {'post_params': params, 'params': params})
 
