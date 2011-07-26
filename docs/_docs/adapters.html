@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>adapters.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>adapters.py</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-0'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-0">#</a>
+        </div>
+        <p>Functions for serving a Pump app.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pump.util</span> <span class="kn">import</span> <span class="n">wsgi</span>
+
+<span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">&quot;host&quot;</span><span class="p">:</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span>
+  <span class="s">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8000</span><span class="p">,</span>
+  <span class="s">&quot;server_name&quot;</span><span class="p">:</span> <span class="s">&quot;Pump&quot;</span><span class="p">}</span></pre></div></pre></div>
+      </td>
+    </tr><tr id='section-1'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-1">#</a>
+        </div>
+        <p>Serve a Pump app with Paste's WSGI server.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="k">def</span> <span class="nf">serve_with_paste</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{}):</span>
+  <span class="n">wsgi_app</span> <span class="o">=</span> <span class="n">wsgi</span><span class="o">.</span><span class="n">build_wsgi_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">default_options</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+  <span class="kn">from</span> <span class="nn">paste.httpserver</span> <span class="kn">import</span> <span class="n">serve</span>
+  <span class="k">return</span> <span class="n">serve</span><span class="p">(</span><span class="n">wsgi_app</span><span class="p">,</span> <span class="o">**</span><span class="n">_get_paste_config</span><span class="p">(</span><span class="n">options</span><span class="p">))</span></pre></div></pre></div>
+      </td>
+    </tr><tr id='section-2'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-2">#</a>
+        </div>
+        
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="k">def</span> <span class="nf">_get_paste_config</span><span class="p">(</span><span class="n">options</span><span class="p">):</span>
+  <span class="n">options</span><span class="p">[</span><span class="s">&quot;server_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;server_name&quot;</span><span class="p">)</span>
+  <span class="k">del</span> <span class="n">options</span><span class="p">[</span><span class="s">&quot;server_name&quot;</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">options</span>
+
+</pre></div></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
