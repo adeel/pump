@@ -2,11 +2,11 @@
 
 # # Table of contents
 
-# The [util](util/__init__.html) package contains code for working with
+# The [util](util/) package contains code for working with
 # Pump responses and dealing with WSGI objects.
 import util
 
-# The [middleware](middleware/__init__.html) package contains useful middleware
+# The [middleware](middleware/) package contains useful middleware
 # that you can use in your Pump app.
 import middleware
 
