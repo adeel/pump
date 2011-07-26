@@ -1,17 +1,17 @@
-"Methods for converting between Pack apps and WSGI apps."
+"Methods for converting between Pump apps and WSGI apps."
 
 import threading
-from pack.util.response import skeleton
+from pump.util.response import skeleton
 
 def build_app(wsgi_app):
-  "Convert a WSGI app to a Pack app."
+  "Convert a WSGI app to a Pump app."
   def app(request):
     # A thread-local storage is required here, because of the way WSGI is
     # implemented (start_response in particular).  As far as I can tell,
     # it's necessary to give the WSGI app a custom start_response function
     # that just saves the status and headers to a thread-local variable.
     # Then we combine these with the body, returned by the WSGI app, to build
-    # the Pack response.
+    # the Pump response.
     data = threading.local()
     def start_response(status, headers, _=None):
       data.status = status
@@ -22,7 +22,7 @@ def build_app(wsgi_app):
   return app
 
 def build_request(wsgi_req):
-  "Convert a WSGI request (environ) to a Pack request."
+  "Convert a WSGI request (environ) to a Pump request."
   return dict({
     'uri':     wsgi_req.get('RAW_URI') or wsgi_req.get('PATH_INFO'),
     'scheme':  wsgi_req.get('wsgi.url_scheme'),
@@ -32,7 +32,7 @@ def build_request(wsgi_req):
   }, **dict([(k.lower(), v) for k, v in wsgi_req.iteritems()]))
 
 def build_response(wsgi_response):
-  "Convert a WSGI response to a Pack response."
+  "Convert a WSGI response to a Pump response."
   status, headers, body = wsgi_response
   return {
     "status":  int(status[:3]),
@@ -41,7 +41,7 @@ def build_response(wsgi_response):
 
 def build_middleware(wsgi_middleware, *args):
   """
-  Converts a WSGI middleware into Pack middleware.  You can pass additional
+  Converts a WSGI middleware into Pump middleware.  You can pass additional
   arguments which will be passed to the middleware given.
   """
   def middleware(app):
@@ -49,7 +49,7 @@ def build_middleware(wsgi_middleware, *args):
   return middleware
 
 def build_wsgi_app(app):
-  "Convert a Pack app to a WSGI app."
+  "Convert a Pump app to a WSGI app."
   def wsgi_app(request, start_response, _=None):
     response = app(build_request(request)) or {}
     response_map = dict(skeleton, **response)
@@ -57,7 +57,7 @@ def build_wsgi_app(app):
   return wsgi_app
 
 def build_wsgi_request(request):
-  "Convert a Pack request to a WSGI request."
+  "Convert a Pump request to a WSGI request."
   wsgi_request = {
     "SERVER_PORT":     request.get("server_port"),
     "SERVER_NAME":     request.get("server_name"),
@@ -80,7 +80,7 @@ def build_wsgi_request(request):
   return wsgi_request
 
 def build_wsgi_response(response_map, start_response):
-  "Convert a Pack response to a WSGI response."
+  "Convert a Pump response to a WSGI response."
   response = {}
   response = set_status(response, response_map["status"])
   response = set_headers(response, response_map["headers"])

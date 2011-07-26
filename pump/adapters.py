@@ -1,12 +1,12 @@
-from pack.util import wsgi
+from pump.util import wsgi
 
 default_options = {
   "host": "127.0.0.1",
   "port": 8000,
-  "server_name": "Pack"}
+  "server_name": "Pump"}
 
 def serve_with_paste(app, options={}):
-  "Serve a Pack app with the WSGI server from Paste."
+  "Serve a Pump app with the WSGI server from Paste."
   wsgi_app = wsgi.build_wsgi_app(app)
   options = dict(default_options, **options)
 

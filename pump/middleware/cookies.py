@@ -1,7 +1,7 @@
 "A middleware that adds cookie support."
 
 from Cookie import SimpleCookie as Cookie
-from pack.util import codec
+from pump.util import codec
 
 def wrap_cookies(app):
   """

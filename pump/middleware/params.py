@@ -1,7 +1,7 @@
 "A middleware for parsing GET and POST params."
 
 import re
-from pack.util import codec
+from pump.util import codec
 
 def wrap_params(app, options={}):
   """

@@ -1,30 +1,30 @@
-Pack is a low-level library for developing web applications in Python.  It
+Pump is a low-level library for developing web applications in Python.  It
 is meant to improve on WSGI by providing a clean, developer-friendly API.
 Heavily inspired by Clojure's Ring and Ruby's Rack.
 
-Pack apps are easily converted to WSGI apps.  WSGI middleware can also be
-converted to Pack middleware.
+Pump apps are easily converted to WSGI apps.  WSGI middleware can also be
+converted to Pump middleware.
 
 EXAMPLE.
 
     # test.py
 
-    import pack
+    import pump
 
     def app(req):
       return {"status": 200, "headers": {"content_type": "text/plain"},
               "body": "Hello, world!"}
 
-    pack.adapters.serve_with_paste(app, {"port": 3000})
+    pump.adapters.serve_with_paste(app, {"port": 3000})
 
 This requires the Paste WSGI server <http://pythonpaste.org> to run.
 
 DESCRIPTION.
 
--- A Pack app is a function that takes a Pack request and returns a Pack
+-- A Pump app is a function that takes a Pump request and returns a Pump
 response.
 
--- A Pack request is a dict with the following keys.
+-- A Pump request is a dict with the following keys.
 
   -- server_port
        Corresponds to SERVER_PORT in WSGI's environ.
@@ -54,7 +54,7 @@ response.
        The HTTP request body as a stream.  Corresponds to wsgi.input in WSGI's
        environ.
 
--- A Pack response is a dict with the following keys.
+-- A Pump response is a dict with the following keys.
 
   -- status
        An integer, e.g. 200, 404.

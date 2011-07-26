@@ -1,7 +1,7 @@
 "A middleware that adds a content_type key to the response map."
 
 import mimetypes
-from pack.util import response
+from pump.util import response
 
 def wrap_content_type(app, options={}):
   def wrapped_app(req):

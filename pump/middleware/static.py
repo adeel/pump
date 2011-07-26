@@ -1,9 +1,9 @@
 """
 A middleware for serving static files that is more selective than
-pack.middleware.file.
+pump.middleware.file.
 """
 
-from pack.middleware.file import *
+from pump.middleware.file import *
 
 def wrap_static(app, public_dir, static_urls):
   """

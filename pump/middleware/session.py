@@ -1,7 +1,7 @@
 "A middleware that implements cookie-based sessions using Beaker."
 
 import beaker.middleware
-from pack.util import wsgi
+from pump.util import wsgi
 
 def wrap_session(app, options={}):
   """
@@ -28,7 +28,7 @@ def wrap_session(app, options={}):
          A dictionary with the following keys:
 
            -- key:
-                The name of the cookie.  Defaults to "pack-session".
+                The name of the cookie.  Defaults to "pump-session".
            -- secret:
                 A long, randomly-generated string used to ensure session
                 integrity.
@@ -57,7 +57,7 @@ def wrap_session(app, options={}):
     "store": "memory",
     "auto": True}, **options), cookies=dict({
       "expires": False,
-      "key": "pack-session",
+      "key": "pump-session",
       "secure": False}, **options.get("cookies", {})))
 
   for middleware in [wrap_unbeaker, wrap_beaker(options)]:
@@ -65,7 +65,7 @@ def wrap_session(app, options={}):
   return app
 
 def wrap_beaker(options):
-  "A Pack middleware that wraps around Beaker's WSGI middleware."
+  "A Pump middleware that wraps around Beaker's WSGI middleware."
   return wsgi.build_middleware(_beaker_wsgi_middleware, options)
 
 def wrap_unbeaker(app):
