@@ -1,4 +1,4 @@
-# **Pump** is a simple web application library for Python.
+# **Pump** is a dead simple Pythonic abstraction of HTTP.
 
 # # Table of contents
 
