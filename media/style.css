@@ -1,0 +1,59 @@
+html, body {
+  background-color: #212121;
+  color: #e8e8e8;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  text-shadow: 0px 1px 1px black; }
+
+#wrapper {
+  margin: 25px 10px 0 50px; }
+
+.header h1 {
+  font-size: 8em;
+  letter-spacing: -0.08em;
+  margin: 0 0 0 -8px;
+  color: #999999;
+  text-shadow: 0 1px 2px black; }
+.header h2 {
+  margin: 30px 0 0;
+  font-size: 3em;
+  line-height: 1.2em; }
+
+.links {
+  margin: 20px 0;
+  font-size: 2.5em; }
+  .links .link {
+    display: inline;
+    margin: 0 25px 0 0; }
+    .links .link a {
+      color: #edefb0;
+      font-weight: bold;
+      text-decoration: none;
+      border-bottom: 3px solid #e8e8e8; }
+      .links .link a:hover {
+        color: #fbff79;
+        border-bottom-color: white; }
+
+.blurbs {
+  margin-top: 60px;
+  width: 800px; }
+  .blurbs .blurb h3 {
+    font-size: 2em;
+    margin-bottom: 0;
+    color: #bbbbbb; }
+  .blurbs .blurb p {
+    margin: 7px 0;
+    font-size: 2em;
+    line-height: 1.3em;
+    color: white;
+    text-shadow: 0 1px 1px none; }
+    .blurbs .blurb p a {
+      color: inherit; }
+    .blurbs .blurb p code {
+      font-family: Monaco, "Courier New", "DejaVu Sans Mono", monospace;
+      font-size: 0.8em;
+      background-color: #323232;
+      color: #a9a9a9;
+      text-shadow: none;
+      padding: 0 3px;
+      xborder-bottom: 2px solid #404040; }

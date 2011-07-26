@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pump: A dead simple Pythonic abstraction of HTTP</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" media="screen, projection"
+          href="media/style.css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div class="header">
+        <h1>Pump</h1>
+        <h2>A dead simple Pythonic abstraction of HTTP.</h2>
+      </div>
+      <div class="links">
+        <div class="link"><a href="/manual.html">User Manual</a></div>
+        <div class="link"><a href="/docs">Annotated Source</a></div>
+        <div class="link"><a href="http://github.com/adeel/pump">Github</a></div>
+      </div>
+      <div class="blurbs">
+        <div class="blurb">
+          <h3>What WSGI should have been.</h3>
+          <p>Pump hides the implementation details of HTTP and gives you a Pythonic API for writing webapps.  Your <a href="#">app</a> is just a function that takes a <a href="#"><strong>request</strong></a>&mdash;a dict with certain keys&mdash;and returns a <a href="#"><strong>response</strong></a>&mdash;a dict with <code>status</code>, <code>headers</code> and <code>body</code> keys.  No fancy <a href="http://archimedeanco.com/wsgi-tutorial"><code>start_response</code> or <code>environ</code></a> here.</p>
+        </div>
+        <div class="blurb">
+          <h3>Middleware</h3>
+          <p>Pump understands how powerful middleware can be.  It comes with <strong>practical middleware that you will use</strong>, like <code>wrap_params</code>, <code>wrap_nested_params</code>, <code>wrap_static</code>, <code>wrap_cookies</code>, <code>wrap_sessions</code>.  WSGI frameworks all have to implement this code themselves, as part of the framework.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
