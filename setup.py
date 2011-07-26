@@ -1,6 +1,6 @@
 from setuptools import setup
 
-desc = open("README").read()
+desc = open("README.md").read()
 
 setup(
   name="pump",
