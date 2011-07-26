@@ -14,19 +14,26 @@
         <h2>A dead simple Pythonic abstraction of HTTP.</h2>
       </div>
       <div class="links">
-        <div class="link"><a href="/manual.html">User Manual</a></div>
-        <div class="link"><a href="/docs">Annotated Source</a></div>
+        <div class="link"><a href="manual.html">User Manual</a></div>
+        <div class="link"><a href="docs">Annotated Source</a></div>
         <div class="link"><a href="http://github.com/adeel/pump">Github</a></div>
       </div>
       <div class="blurbs">
         <div class="blurb">
           <h3>What WSGI should have been.</h3>
-          <p>Pump hides the implementation details of HTTP and gives you a Pythonic API for writing webapps.  Your <a href="#">app</a> is just a function that takes a <a href="#"><strong>request</strong></a>&mdash;a dict with certain keys&mdash;and returns a <a href="#"><strong>response</strong></a>&mdash;a dict with <code>status</code>, <code>headers</code> and <code>body</code> keys.  No fancy <a href="http://archimedeanco.com/wsgi-tutorial"><code>start_response</code> or <code>environ</code></a> here.</p>
+          <p>Pump hides the implementation details of HTTP and gives you a Pythonic API for writing webapps.  Your <a href="manual.html#app">app</a> is just a function that takes a <a href="manual.html#request"><strong>request</strong></a>&mdash;a dict with certain keys&mdash;and returns a <a href="manual.html#response"><strong>response</strong></a>&mdash;a dict with <code>status</code>, <code>headers</code> and <code>body</code> keys.  No fancy <a href="http://mail.python.org/pipermail/web-sig/2009-November/thread.html#4224"><code>start_response</code></a> or <a href="http://mail.python.org/pipermail/web-sig/2009-November/thread.html#4224"><code>environ</code></a> here.</p>
         </div>
         <div class="blurb">
-          <h3>Middleware</h3>
-          <p>Pump understands how powerful middleware can be.  It comes with <strong>practical middleware that you will use</strong>, like <code>wrap_params</code>, <code>wrap_nested_params</code>, <code>wrap_static</code>, <code>wrap_cookies</code>, <code>wrap_sessions</code>.  WSGI frameworks all have to implement this code themselves, as part of the framework.</p>
+          <h3>Comes with useful middlewares.</h3>
+          <p>Pump middlewares are <strong>reusable functions that can add functionality to any Pump app</strong>.  Pump comes with useful middlewares like <code>wrap_params</code>, <code>wrap_nested_params</code>, <code>wrap_static</code>, <code>wrap_cookies</code>, <code>wrap_sessions</code>.  Since such functionality is implemented as middleware, frameworks built on Pump don't have to <a href="https://code.djangoproject.com/browser/django/trunk/django/http/__init__.py">reinvent the wheel</a>.</p>
         </div>
+        <div class="blurb">
+          <h3>Take advantage of existing WSGI tools.</h3>
+          <p>Pump comes with adapters for <strong><a href="docs/adapters.html">serving</a> Pump apps with WSGI servers</strong> and <strong><a href="docs/util/wsgi.html">converting</a> <a href="http://www.wsgi.org/wsgi/Middleware_and_Utilities">WSGI middleware</a> to Pump middleware</strong>.</p>
+        </div>
+      </div>
+      <div class="footer">
+        <p>Copyright &copy; 2011 <a href="http://adeel.ru">Adeel Ahmad Khan</a>.</p>
       </div>
     </div>
   </body>
