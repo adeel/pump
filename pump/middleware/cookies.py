@@ -1,23 +1,21 @@
-"A middleware that adds cookie support."
+# A middleware that adds cookie support.
 
 from Cookie import SimpleCookie as Cookie
 from pump.util import codec
 
+# Adds a "cookies" key to the request, which contains a dictionary containing
+# any cookies sent by the client.  If any new values are found in the
+# dictionary after your app is called, the new cookies are sent to the client.
+# The values in the dict will be converted to strings, unless they are
+# themselves dicts.  In that case, the "value" key will be used as the cookie
+# value and the other keys will be interpreted as cookie attributes.
+# 
+#     request["cookies"] = {"a": {"value": "b", "path": "/"}}
+# 
+# Note: if a cookie is set and is later deleted from request["cookies"], the
+# corresponding cookie will not automatically be deleted.  You need to set the
+# "expires" attribute of the cookie to a time in the past.
 def wrap_cookies(app):
-  """
-  Adds a "cookies" key to the request, which contains a dictionary containing
-  any cookies sent by the client.  If any new values are found in the
-  dictionary after your app is called, the new cookies are sent to the client.
-  The values in the dict will be converted to strings, unless they are
-  themselves dicts.  In that case, the "value" key will be used as the cookie
-  value and the other keys will be interpreted as cookie attributes.
-
-    request["cookies"] = {"a": {"value": "b", "path": "/"}}
-
-  Note: if a cookie is set and is later deleted from request["cookies"], the
-  corresponding cookie will not automatically be deleted.  You need to set the
-  "expires" attribute of the cookie to a time in the past.
-  """
   def wrapped_app(request):
     # Get any cookies from the request.
     req_cookies = request.get("cookies")
@@ -39,20 +37,18 @@ def wrap_cookies(app):
     return response
   return wrapped_app
 
+# Parse the cookies from a request into a dictionary.
 def _parse_cookies(request):
-  "Parse the cookies from a request into a dictionary."
   cookie = Cookie(request["headers"].get("cookie"))
   parsed = {}
   for k, v in cookie.iteritems():
     parsed[k] = v.value
   return parsed
 
+# Formats the dict of cookies for the set_cookie header.  If a value is a dict,
+# its "value" key will be used as the value and the other keys will be
+# interpreted as cookie attributes.
 def _format_cookie(key, val):
-  """
-  Formats the dict of cookies for the set_cookie header.  If a value is a dict,
-  its "value" key will be used as the value and the other keys will be
-  interpreted as cookie attributes.
-  """
   if not isinstance(val, dict):
     val = {"value": val}
 

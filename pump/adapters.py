@@ -1,3 +1,5 @@
+# Functions for serving a Pump app.
+
 from pump.util import wsgi
 
 default_options = {
@@ -5,8 +7,8 @@ default_options = {
   "port": 8000,
   "server_name": "Pump"}
 
+# Serve a Pump app with Paste's WSGI server.
 def serve_with_paste(app, options={}):
-  "Serve a Pump app with the WSGI server from Paste."
   wsgi_app = wsgi.build_wsgi_app(app)
   options = dict(default_options, **options)
 
