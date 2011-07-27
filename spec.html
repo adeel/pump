@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pump: A dead simple Pythonic abstraction of HTTP</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" media="screen, projection"
+          href="media/style.css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div class="header">
+        <h1><a href="index.html">Pump</a></h1>
+      </div>
+      <div class="manual">
+<h1>Pump Specification</h1>
+<p>The Pump specification consists of headers, requests, responses, apps, and middleware.</p>
+<h2>Pump headers</h2>
+<p><strong>Pump headers</strong> are closely related to HTTP headers.</p>
+<p>A Pump header is represented as a key-value pair.  An HTTP header name and value can be transformed into a Pump header by stripping "HTTP_" from the beginning of the name and downcasing; the value stays the same.  A Pump header is transformed into an HTTP header by exactly the reverse operation.</p>
+<h2>Pump requests</h2>
+<p><strong>Pump requests</strong> are an abstraction of HTTP requests.</p>
+<p>A pump request is a dictionary with the following keys.</p>
+<p><strong>server_port</strong> (str, required).  The port on which the request is being handled.</p>
+<p><strong>server_name</strong> (str, required).  The resolved server name, or the server IP address.</p>
+<p><strong>remote_addr</strong> (str, required).  The IP address of the client or the last proxy that sent the request.</p>
+<p><strong>uri</strong> (str, required).  The request URI.  Starts with '/'.</p>
+<p><strong>query_string</strong> (str, optional).  The portion of the request URI that follows the '?'.</p>
+<p><strong>scheme</strong> (str, required).  The transport protocol: "http" or "https".</p>
+<p><strong>method</strong> (str, required).  The HTTP request method: "get", "head", "options", "put", "post", or "delete".</p>
+<p><strong>content_type</strong> (str, optional).  The MIME type of the request body, if known.</p>
+<p><strong>content_length</strong> (int, optional).  The number of bytes in the request body, if known.</p>
+<p><strong>character_encoding</strong> (str, optional).  The character encoding used in the request body, if known.</p>
+<p><strong>headers</strong> (dict, required).  A dict of Pump headers in the request.  In case two headers have the same key, they are merged into one header whose value is a list containing both of their values.</p>
+<p><strong>body</strong> (input stream, optional).  A file-like object containing the request body, if present.</p>
+<h2>Pump responses</h2>
+<p><strong>Pump responses</strong> are an abstraction of HTTP responses.</p>
+<p>A Pump response is a dictionary with the following keys.</p>
+<p><strong>status</strong> (int, required).  The HTTP status code (e.g. 200 or 404).</p>
+<p><strong>headers</strong> (dict, required).  A dict containing the Pump headers in the response (e.g. {"content_type": "text/html"}).  In case the value of some header is a list, the corresponding HTTP response will have multiple headers for each value in the list.</p>
+<p><strong>body</strong> (str or list or file, optional).  The response body.  If it is a string, it will be sent as is.  If it is a list, each element will be sent as a string.  If it is a file, its contents are sent.</p>
+<h2>Pump apps</h2>
+<p>A <strong>Pump app</strong> is a function that takes a Pump request and returns a Pump response.</p>
+<h2>Pump middleware</h2>
+<p>A <strong>Pump middleware</strong> is a higher-order function that takes a Pump app and returns a Pump app.</p>      </div>
+      <div class="footer">
+        <p>Copyright &copy; 2011 <a href="http://adeel.ru">Adeel Ahmad Khan</a>.</p>
+      </div>
+    </div>
+  </body>
+</html>
