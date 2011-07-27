@@ -62,7 +62,8 @@ p {
   margin-top: 30px;
   width: 800px; }
   .manual p {
-    margin: 20px 0; }
+    margin: 20px 0;
+    font-size: 1.5em; }
   .manual h1 {
     font-size: 2.5em; }
   .manual h2 {
