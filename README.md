@@ -1,4 +1,4 @@
-# Pump
+# Pump User Manual
 
 **Pump** is a dead simple abstraction of HTTP for Python.
 
