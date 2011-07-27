@@ -46,7 +46,7 @@ The Pump specification consists of headers, requests, responses, apps, and middl
         return response
       return wrapped
 
-For the detailed specification, see `SPEC.md`.
+For the detailed specification, see [`SPEC.md`](http://adeel.github.com/pump/spec.html).
 
 ## Getting started
 
