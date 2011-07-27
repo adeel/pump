@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pump: A dead simple Pythonic abstraction of HTTP</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" media="screen, projection"
+          href="media/style.css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div class="header">
+        <h1><a href="index.html">Pump</a></h1>
+      </div>
+      <div class="manual">
+<h1>Pump</h1>
+<p><strong>Pump</strong> is a dead simple abstraction of HTTP for Python.</p>
+<h2>Summary</h2>
+<p>The Pump specification consists of headers, requests, responses, apps, and middleware.  Below are examples of each.</p>
+<p><strong>Pump requests</strong>.</p>
+<pre><code>{"server_port": "80",
+ "server_name": "127.0.0.1",
+ "remote_addr": "127.0.0.1",
+ "uri": "/",
+ "scheme": "http",
+ "method": "get",
+ "headers":
+   {"accept_charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+    "connection": "keep-alive",
+    "host": "localhost:8000",
+    ...}}
+</code></pre>
+<p><strong>Pump responses</strong>.</p>
+<pre><code>{"status": 200,
+ "headers": {"content_type": "text/plain"},
+ "body": "Hello!"}
+</code></pre>
+<p><strong>Pump apps</strong>.</p>
+<pre><code>def app(req):
+  if req["uri"] == "/favicon.ico":
+    return {"status": 404, headers: {}, body: "Not Found"}
+  return {"status": 200,
+          "headers": {"content_type": "text/html"},
+          "body": "&lt;h1&gt;Hello!&lt;/h1&gt;"}
+</code></pre>
+<p><strong>Pump middleware</strong>.</p>
+<pre><code>def wrap_with_logger(app):
+  def wrapped(req):
+    response = app(req)
+    print "%s %s\n  =&gt; %s" % (req["method"],
+                              req["uri"],
+                              response)
+    return response
+  return wrapped
+</code></pre>
+<p>For the detailed specification, see <code>SPEC.md</code>.</p>
+<h2>Getting started</h2>
+<h3>Installation</h3>
+<p>To install, type</p>
+<pre><code>$ pip install pump
+</code></pre>
+<p>or grab the code from <a href="https://github.com/adeel/pump">Github</a>:</p>
+<pre><code>$ git clone git://github.com/adeel/pump.git
+$ cd pump
+$ python setup.py install
+</code></pre>
+<h3>Running your app</h3>
+<p>Pump comes with an adapter for the <a href="http://pythonpaste.org/modules/httpserver.html">Paste WSGI server</a>.  If you don't have that installed, do</p>
+<pre><code>$ pip install Paste
+</code></pre>
+<p>and then to run your app:</p>
+<pre><code>import pump
+pump.adapters.serve_with_paste(app, {"port": 3000})
+</code></pre>
+<p>Soon, Pump will come with adapters for other popular WSGI servers.</p>
+<h2>Thanks</h2>
+<p>Pump was heavily inspired by Clojure's <a href="https://github.com/mmcgrana/ring">Ring</a>.  Thanks, Mark McGranaghan!</p>
+<h2>License</h2>
+<p>Copyright (c) 2011 Adeel Ahmad Khan <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#101;&#101;&#108;&#64;&#97;&#100;&#101;&#101;&#108;&#46;&#114;&#117;">&#97;&#100;&#101;&#101;&#108;&#64;&#97;&#100;&#101;&#101;&#108;&#46;&#114;&#117;</a>.</p>
+<p>MIT license.</p>      </div>
+      <div class="footer">
+        <p>Copyright &copy; 2011 <a href="http://adeel.ru">Adeel Ahmad Khan</a>.</p>
+      </div>
+    </div>
+  </body>
+</html>
