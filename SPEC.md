@@ -1,4 +1,4 @@
-# Pump specification
+# Pump Specification
 
 The Pump specification consists of headers, requests, responses, apps, and middleware.
 
