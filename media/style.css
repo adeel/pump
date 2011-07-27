@@ -5,12 +5,13 @@ html, body {
   font-size: 16px;
   text-shadow: 0 1px 1px white; }
 
+a {
+  color: inherit; }
+
 p {
   margin: 7px 0;
   font-size: 1.8em;
   line-height: 1.3em; }
-  p a {
-    color: inherit; }
   p code {
     font-family: Monaco, "Courier New", "DejaVu Sans Mono", monospace;
     font-size: 0.8em;
@@ -26,6 +27,8 @@ p {
   margin: 0 0 0 -8px;
   color: #b20811;
   text-shadow: 0 3px 1px #860000; }
+  .header h1 a {
+    text-decoration: none; }
 .header h2 {
   margin: 30px 0 0;
   font-size: 3em;
