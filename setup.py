@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
   name="pump",
-  version="0.1.0",
+  version="0.1.1",
   description="A web application library.",
   author="Adeel Ahmad Khan",
   author_email="adeel@adeel.ru",
