@@ -1,12 +1,9 @@
 from setuptools import setup
 
-desc = open("README.md").read()
-
 setup(
   name="pump",
   version="0.1.0",
   description="A web application library.",
-  long_description=desc,
   author="Adeel Ahmad Khan",
   author_email="adeel@adeel.ru",
   packages=["pump", "pump.util", "pump.middleware"],
