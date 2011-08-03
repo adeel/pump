@@ -29,8 +29,11 @@ def wrap_cookies(app):
     updated_cookies = request.get("cookies", {}).copy()
     cookie_header = []
     for k, v in updated_cookies.iteritems():
-      v = str(v)
-      if k not in req_cookies or req_cookies[k] != v:
+      try:
+        value = v.get("value")
+      except AttributeError:
+        value = str(v)
+      if k not in req_cookies or req_cookies[k] != value:
         cookie_header.append(_format_cookie(k, v))
 
     response.setdefault("headers", {})["set_cookie"] = cookie_header
