@@ -81,6 +81,6 @@ Pump was heavily inspired by Clojure's [Ring](https://github.com/mmcgrana/ring).
 
 ## License
 
-Copyright (c) 2011 Adeel Ahmad Khan <adeel@adeel.ru>.
+Copyright (c) 2011 Adeel Ahmad Khan <adeel@yusufzai.me>.
 
 MIT license.
